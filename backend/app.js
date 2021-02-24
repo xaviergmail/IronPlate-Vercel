@@ -24,6 +24,11 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 const app = express();
 
+if (process.env.NETLIFY) {
+  const rewrite = require("express-urlrewrite")
+  app.use(rewrite(/^\/\.netlify\/functions\/netlify-api\/netlify-api(\/?.*)/, '/api$1'))
+}
+
 app.use(
   cors({
     credentials: true,
@@ -63,4 +68,17 @@ const auth = require('./routes/auth');
 app.use('/api', index);
 app.use('/api', auth);
 
-module.exports = app;
+
+
+
+if (process.env.NETLIFY) {
+  const serverless = require('serverless-http');
+  console.log("we netlify")
+  const handler = serverless(app)
+  module.exports = {
+    handler: async (...args) => { console.log("ARGS", ...args); return handler(...args) }
+  }
+} else {
+  module.exports = app;
+}
+

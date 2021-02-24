@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "preinstall": "echo --- preinstall --- && cd backend && npm install && cd ../frontend && npm install && npm run build && cd ..",
-    "build": "pushd frontend && npm run build && popd && rm -rf ./public && mv frontend/build/ ./public",
+    "build": "rm -rf ./public && rm -rf ./frontend/build/ && cd frontend && npm run build && cd .. && mv frontend/build/ ./public",
+    "netlify": "NETLIFY=1 npm run build && netlify dev",
     "start": "echo --- start --- && concurrently \"cd backend && nodemon app.js\" \"cd frontend && npm start\""
   },
   "repository": {
