@@ -47,7 +47,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.use(express.static(path.join(__dirname, '../frontend/build')))
+if (process.env.NODE_ENV !== "production") {
+  app.use(express.static(path.join(__dirname, '../frontend/build')))
+}
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -60,16 +62,5 @@ const auth = require('./routes/auth');
 
 app.use('/api', index);
 app.use('/api', auth);
-
-
-app.get('*', (req, res, next) => {
-  console.log('weird', req.headers.host, 'peach', req.url)
-
-  if(req.headers.host.includes('heroku')){ 
-    res.sendFile(path.join(__dirname, '../frontend/build/index.html'))
-  } else {
-    next()
-  }
-})
 
 module.exports = app;
