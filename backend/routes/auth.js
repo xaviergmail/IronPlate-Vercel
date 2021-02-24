@@ -51,6 +51,9 @@ router.get('/logout', (req, res, next) => {
   res.status(200).json({ msg: 'Logged out' });
 });
 
+router.get('/test', (req, res, next) => {
+  res.status(200).json({ msg: 'Success!' });
+})
 
 function isAuth(req, res, next) {
   req.isAuthenticated() ? next() : res.status(401).json({ msg: 'Log in first' });
