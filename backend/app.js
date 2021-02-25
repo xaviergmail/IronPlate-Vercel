@@ -73,10 +73,8 @@ app.use('/api', auth);
 
 if (process.env.NETLIFY) {
   const serverless = require('serverless-http');
-  console.log("we netlify")
-  const handler = serverless(app)
   module.exports = {
-    handler: async (...args) => { console.log("ARGS", ...args); return handler(...args) }
+    handler: serverless(app)
   }
 } else {
   module.exports = app;
