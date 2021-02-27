@@ -22,6 +22,9 @@ const actions = {
   },
   logOut: async () => {
     return await service.get('/logout')
+  },
+  test: async () => {
+    return await service.get('/test')
   }
 };
 

@@ -83,3 +83,7 @@ const App = () => {
 
 }
 export default App;
+
+(async () => {
+  console.log("API Test", await actions.test())
+})()
